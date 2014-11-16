@@ -563,7 +563,7 @@ hr {
 .pageResults {
 	position: absolute;
 	width: 100%;
-	display: table;
+	display: block;
 }
 
 .rec {
@@ -667,6 +667,12 @@ hr {
 	padding-left: 35px;
 	cursor: pointer;
 }
+
+/*  UI TOP */
+
+
+
+
 
 
 /* MEDIA SPECIFIC: SMALL TABLETS */
