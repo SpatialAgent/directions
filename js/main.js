@@ -120,6 +120,8 @@ define([
       offset : 0,
       page : 0,
       searchProps : null,
+      curStops : [],
+      dirOK : true,
 
       // Startup
       startup : function(config) {
@@ -131,14 +133,16 @@ define([
             this._setColor();
             this._setProtocolHandler();
             // proxy rules
-            urlUtils.addProxyRule({
-               urlPrefix : "route.arcgis.com",
-               proxyUrl : this.config.proxyurl
-            });
-            urlUtils.addProxyRule({
-               urlPrefix : "traffic.arcgis.com",
-               proxyUrl : this.config.proxyurl
-            });
+            if (this.config.proxyurl != "") {
+               urlUtils.addProxyRule({
+                  urlPrefix : "route.arcgis.com",
+                  proxyUrl : this.config.proxyurl
+               });
+               urlUtils.addProxyRule({
+                  urlPrefix : "traffic.arcgis.com",
+                  proxyUrl : this.config.proxyurl
+               });
+            }
             // document ready
             ready(lang.hitch(this, function() {
                //supply either the webmap id or, if available, the item info
@@ -586,9 +590,9 @@ define([
          }
 
          // directions
-         var userLang = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
-         if (!userLang)
-            userLang = "en_US";
+         // var userLang = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
+         // if (!userLang)
+            // userLang = "en_US";
          var rgb = Color.fromString(this.color).toRgb();
          var symL = new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, new Color([0, 0, 0]), 0);
          var sym = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 1, symL, new Color([0, 0, 0, 0]));
@@ -602,10 +606,10 @@ define([
             maxStops : 2,
             showTravelModesOption : false,
             showTrafficOption : true,
-            routeParams : {
-               directionsLanguage : userLang,
-               directionsLengthUnits : units
-            },
+            // routeParams : {
+               // directionsLanguage : userLang,
+               // directionsLengthUnits : units
+            // },
             alphabet : false,
             canModifyStops : false,
             dragging : false,
@@ -615,11 +619,12 @@ define([
             routeSymbol : routeSym,
             segmentSymbol : segmentSym
          };
-         if (this.config.helperServices.routeTask)
-            options.routeTaskURL = this.config.helperServices.routeTask.url;
+         if (this.config.helperServices.route && this.config.helperServices.route.url)
+            options.routeTaskURL = this.config.helperServices.route.url;
          if (this.config.routeUtility)
-            options.routeTaskUrl = this.config.routeUtility;
+           options.routeTaskUrl = this.config.routeUtility;
          this.dirWidget = new Directions(options, "resultsDirections");
+         //on(this.dirWidget, "directions-clear", lang.hitch(this, this._directionsCleared));
          on(this.dirWidget, "directions-finish", lang.hitch(this, this._directionsFinished));
          this.dirWidget.startup();
 
@@ -698,7 +703,10 @@ define([
          this.page = num;
          switch (num) {
          case 0:
-            this._clearDirections();
+            var promise = this._clearDirections();
+            promise.then(lang.hitch(this, function(){
+               this.dirOK = true;
+            }));
             dom.byId("panelTitle").innerHTML = this.config.title;
             domStyle.set("bodyFeatures", "display", "block");
             domStyle.set("bodyDirections", "display", "none");
@@ -726,7 +734,10 @@ define([
             domStyle.set("panelFilterBox", "display", "none");
             break;
          case 2:
-            this._clearDirections();
+            var promise = this._clearDirections();
+            promise.then(lang.hitch(this, function(){
+               this.dirOK = true;
+            }));
             var tip = "Filter";
             if (this.config && this.config.i18n) {
                tip = this.config.i18n.tooltips.filter;
@@ -764,7 +775,10 @@ define([
                   this._updateOrigin(gra, gra);
                }
             }), lang.hitch(this, function(err) {
-               this._clearDirections();
+               var promise = this._clearDirections();
+               promise.then(lang.hitch(this, function(){
+                  this.dirOK = true;
+               }));
                console.log(err.message);
                this.geocoder.set("value", "");
             }));
@@ -788,8 +802,10 @@ define([
       },
 
       // geocoder clear
-      _geocoderClear : function() {
-         this._updateOrigin(null, null);
+      _geocoderClear : function(event) {
+         if (this.dirOK) {
+            this._updateOrigin(null, null);
+         }
       },
       
       // geofilter results
@@ -831,7 +847,13 @@ define([
 
       // Process Results
       _processResults : function(results) {
-         this.opFeatures = results.features;
+         this.opFeatures = [];
+         array.forEach(results.features, lang.hitch(this, function(gra) {
+            if (gra.geometry) {
+               this.opFeatures.push(gra);
+            }
+         }));
+         //this.opFeatures = results.features;
          this._processDestinationFeatures();
       },
 
@@ -984,7 +1006,11 @@ define([
       // Select Route
       _selectRoute : function(num, evt) {
          event.stop(evt);
-         this._showRoute(num);
+         var promise = this._clearDirections();
+         promise.then(lang.hitch(this, function(){
+            this.dirOK = true;
+            this._showRoute(num);
+         }));
       },
 
       // Show Route
@@ -1103,12 +1129,10 @@ define([
 
       // Route to destination
       _routeToDestination : function(gra) {
-         this._clearDirections();
          var pt = gra.geometry;
          dom.byId("panelDestination").innerHTML = gra.getTitle();
          this._showPage(1);
          if (this.originObj) {
-            this.dirWidget.removeStops();
             var def = this.dirWidget.addStops([this.originObj, pt]);
             def.then(lang.hitch(this, function() {
                this.dirWidget.getDirections();
@@ -1118,26 +1142,29 @@ define([
 
       // Reverse Directions
       _reverseDirections : function() {
-         var stops = this.dirWidget.stops;
+         var stops = this.dirWidget.stops.slice();
          stops.reverse();
-         this.dirWidget.clearDirections();
-         this.dirWidget.reset();
-         var def = this.dirWidget.addStops(stops);
-         def.then(lang.hitch(this, function() {
-            this.dirWidget.getDirections();
+         var promise = this._clearDirections();
+         promise.then(lang.hitch(this, function(){
+            this.dirOK = true;
+            var def = this.dirWidget.addStops(stops);
+            def.then(lang.hitch(this, function() {
+               this.dirWidget.getDirections();
+            }));
          }));
       },
 
       // Clear Directions
       _clearDirections : function() {
-         this.dirWidget.reset();
-         this.dirWidget.mergedRouteGraphic = undefined;
          if (this.trackingPt)
             this.map.graphics.remove(this.trackingPt);
+         this.dirOK = false;
+         var promise = this.dirWidget.reset();
+         return promise;
       },
-
+      
       // Directions Finished
-      _directionsFinished : function() {
+      _directionsFinished : function(event) {
          if (this.dirWidget.mergedRouteGraphic != undefined) {
             var gra = this.dirWidget.mergedRouteGraphic;
             var ext = gra.geometry.getExtent();
@@ -1173,22 +1200,24 @@ define([
 
       // Update Origin
       _updateOrigin : function(gra, obj) {
-         this._clearDirections();
          this.map.graphics.clear();
          this.origin = gra;
          this.originObj = obj;
-         if (this.origin) {
-            this.map.graphics.add(gra);
-            if (this.page === 0 && !this.selectedNum)
-               this._processDestinationFeatures();
-            if (this.opFeatures.length > 0) {
-               var num = 0;
-               if (this.selectedNum)
-                  num = this.selectedNum;
-               this._showRoute(num);
+         var promise = this._clearDirections();
+         promise.then(lang.hitch(this, function(){
+            this.dirOK = true;
+            if (this.origin) {
+               this.map.graphics.add(gra);
+               if (this.page === 0 && !this.selectedNum)
+                  this._processDestinationFeatures();
+               if (this.opFeatures.length > 0) {
+                  var num = 0;
+                  if (this.selectedNum)
+                     num = this.selectedNum;
+                  this._showRoute(num);
+               }
             }
-         }
-
+         }));
          this._updateRouteTools();
       },
 
@@ -1245,8 +1274,8 @@ define([
             this.map.infoWindow.setContent(div);
             this.map.infoWindow.show(pt);
          }
-         //lang.mixin(evt, {});
-         evt.stopPropagation();
+         var newEvt = lang.mixin({}, evt);
+         newEvt.stopPropagation();
       },
 
       // Use Click Location
@@ -1255,7 +1284,6 @@ define([
          this.locator.locationToAddress(pt, 500, lang.hitch(this, function(result) {
             if (result.address) {
                var label = result.address.Address;
-               //console.log("CLICK ADDRESS", label);
                this.geocoder.set("value", label);
                var sym = new PictureMarkerSymbol("images/start.png", 24, 24);
                var gra = new Graphic(pt, sym, {
@@ -1264,7 +1292,10 @@ define([
                this._updateOrigin(gra, gra);
             }
             }), lang.hitch(this, function(err) {
-               this._clearDirections();
+               var promise = this._clearDirections();
+               promise.then(lang.hitch(this, function(){
+                  this.dirOK = true;
+               }));
                console.log(err);
                var content = "Unable to use this location";
                if (this.config && this.config.i18n) {
