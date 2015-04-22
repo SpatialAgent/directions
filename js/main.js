@@ -148,12 +148,12 @@ define([
                      proxyUrl : this.config.proxyurl
                   });
                }
-               if (this.config.routeUtility) {
-                  urlUtils.addProxyRule({
-                     urlPrefix : this.config.routeUtility,
-                     proxyUrl : this.config.proxyurl
-                  });
-               }
+               // if (this.config.routeUtility) {
+                  // urlUtils.addProxyRule({
+                     // urlPrefix : this.config.routeUtility,
+                     // proxyUrl : this.config.proxyurl
+                  // });
+               // }
             }
             // document ready
             ready(lang.hitch(this, function() {
