@@ -43,18 +43,11 @@
 							<div id="panelSearch">
 								<div id="panelGeocoder"></div>
 							</div>
-							<div id="btnLocate"></div>
-						</div>
-						<div id="panelFilterBox">
-							<div id="panelFilter">
-								<div id="panelGeocoderFilter"></div>
-							</div>
-							<div id="submitFilter"></div>
 						</div>
 						<div id="panelDestination"></div>
 						<!-- Buttons -->
+						<div id="btnLocate"></div>
 						<div id="btnToggle" class="btn btnToggle"></div>
-						<div id="btnFilter" class="btn btnFilter"></div>
 						<div id="btnClose" class="btn btnClose"></div>
 						<div id="btnReset" class="btn btnReset"></div>
 						<div id="btnReverse" class="btn btnReverse"></div>
@@ -89,24 +82,31 @@
 
 		<script type="text/javascript" src="//jsdev.arcgis.com/3.14/"></script>
 
-		<script type="text/javascript">
-         require(["application/template", "application/main"], function(Template, Main) {
-            // create the template. This will take care of all the logic required for template applications
-            var myTemplate = new Template();
-            // create my main application. Start placing your logic in the main.js file.
-            var myApp = new Main();
-            // start template
-            myTemplate.startup().then(function(config) {
-               // The config object contains the following properties: helper services, (optionally)
-               // i18n, appid, webmap and any custom values defined by the application.
-               // In this example we have one called theme.
-               console.log(config);
-               myApp.startup(config);
-            }, function(error) {
-               // something went wrong. Let's report it.
-               myApp.reportError(error);
-            });
-         });
-		</script>
+      <script type="text/javascript">
+        require([
+                "config/templateConfig",
+                "application/template",
+                "application/main"
+            ], function (
+          templateConfig,
+          Template,
+          Main
+        ) {
+          // create the template. This will take care of all the logic required for template applications
+          var myTemplate = new Template(templateConfig);
+          // create my main application. Start placing your logic in the main.js file.
+          var myApp = new Main();
+          // start template
+          myTemplate.startup().then(function (config) {
+            // The config object contains the following properties: helper services, (optionally)
+            // i18n, appid, webmap and any custom values defined by the application.
+            // In this example we have one called theme.
+            myApp.startup(config);
+          }, function (error) {
+            // something went wrong. Let's report it.
+            myApp.reportError(error);
+          });
+        });
+      </script>
 	</body>
 </html>

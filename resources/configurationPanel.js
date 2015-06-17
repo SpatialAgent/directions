@@ -1,7 +1,25 @@
 {
     "configurationSettings": [
         {
-            "category": "<b>General Settings</b>",
+            "category": "Premium Content",
+            "fields": [
+                {
+                    "type": "appproxies",
+                    "serviceProxies": [
+                        {
+                            "url": "http://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World",
+                            "title": "Route"
+                        },
+                        {
+                            "url": "http://traffic.arcgis.com/arcgis/rest/services/World/Traffic/MapServer",
+                            "title": "Traffic"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "category": "<b>App Settings</b>",
             "fields": [
                 {
                     "type": "webmap",
@@ -32,6 +50,15 @@
                     "fieldName": "styleBasemap",
                     "label": "Display basemap in grayscale",
                     "tooltip": "Display basemap in grayscale"
+                }
+            ]
+        },
+        {
+            "category": "<b>Destination Settings</b>",
+            "fields": [
+                {
+                    "type": "paragraph",
+                    "value": "The information presented in the panel for the destination layer is derived from the web map popup configuration. Reconfigure the  popup for the destination layer and save your map to change the information for the destination features."
                 },
                 {
                     "type": "layerAndFieldSelector",
@@ -52,19 +79,24 @@
                 },
                 {
                     "type": "string",
-                    "fieldName": "routeUtility",
-                    "label": "Route utility item (with stored credentials)",
-                    "tooltip": "URL to route utility item",
-                    "placeHolder": ""
-                },
-                {
-                    "type": "paragraph",
-                    "value": "View the <a  target=\"_blank\" href=\"http://www.arcgis.com/apps/Directions/resources/doc/addpremiumservice.html\">Configure a premium service for anonymous access<\/a> help topic for more details" 
+                    "fieldName": "distanceUnits",
+                    "tooltip": "Distance units",
+                    "label": "Distance units",
+                    "options": [
+                        {
+                            "label": "Miles",
+                            "value": "miles"
+                        },
+                        {
+                            "label": "Kilometers",
+                            "value": "kilometers"
+                        }
+                    ]
                 }
             ]
         },
         {
-            "category": "<b>Optional Destination Settings</b> (if no destination layer is specified)",
+            "category": "<b>Alternate Destination Settings</b> (use if no destination layer is specified)",
             "fields": [
                 {
                     "type": "string",
