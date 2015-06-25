@@ -128,6 +128,7 @@ define([
         searchProps: null,
         curStops: [],
         dirOK: true,
+        animTimer: null,
 
         // Startup
         startup: function (config) {
@@ -139,7 +140,7 @@ define([
                 this._setColor();
                 this._setProtocolHandler();
                 // proxy rules
-                if (this.config.proxyurl != "") {
+                if (this.config.proxyurl !== "") {
                     urlUtils.addProxyRule({
                         urlPrefix: "route.arcgis.com",
                         proxyUrl: this.config.proxyurl
@@ -680,11 +681,12 @@ define([
                 toSymbol: sym,
                 stopSymbol: sym,
                 routeSymbol: routeSym,
-                segmentSymbol: segmentSym
+                segmentSymbol: segmentSym,
+                centerAtSegmentStart: false
             };
 
 
-            if (this.config.helperServices.route && this.config.helperServices.route.url != "") {
+            if (this.config.helperServices.route && this.config.helperServices.route.url !== "") {
                 // do we have a proxied url? 
                 var routeUrl = null;
                 array.some(this.config.layerMixins, lang.hitch(this, function (layerMixin) {
@@ -695,7 +697,17 @@ define([
                 }));
                 options.routeTaskUrl = routeUrl || this.config.helperServices.route.url;
             }
-            if (this.config.routeUtility != "") options.routeTaskUrl = this.config.routeUtility;
+            if (this.config.routeUtility !== "") options.routeTaskUrl = this.config.routeUtility;
+
+            // traffic is proxied
+            array.some(this.config.layerMixins, lang.hitch(this, function(layerMixin) {
+                if (layerMixin.url.indexOf("traffic.arcgis.com") !== -1) {
+                  options.traffic = true;
+                  options.trafficLayer = layerMixin.mixin.url;
+                  return true;
+                }
+            }));
+
             this.dirWidget = new Directions(options, "resultsDirections");
             //on(this.dirWidget, "directions-clear", lang.hitch(this, this._directionsCleared));
             on(this.dirWidget, "directions-finish", lang.hitch(this, this._directionsFinished));
@@ -768,9 +780,10 @@ define([
         // Show Page
         _showPage: function (num) {
             this.page = num;
+            var promise;
             switch (num) {
             case 0:
-                var promise = this._clearDirections();
+                promise = this._clearDirections();
                 promise.then(lang.hitch(this, function () {
                     this.dirOK = true;
                 }));
@@ -796,7 +809,7 @@ define([
                 domStyle.set("panelSearchBox", "display", "block");
                 break;
             case 2:
-                var promise = this._clearDirections();
+                promise = this._clearDirections();
                 promise.then(lang.hitch(this, function () {
                     this.dirOK = true;
                 }));
@@ -821,7 +834,7 @@ define([
                 this.locator.locationToAddress(pt, 500, lang.hitch(this, function (result) {
                     if (result.address) {
                         var label = result.address.Address;
-                        this.geocoder.set("value", label);
+                        this.search.set("value", label);
                         var sym = new PictureMarkerSymbol("images/start.png", 24, 24);
                         var gra = new Graphic(pt, sym, {
                             label: label
@@ -834,7 +847,7 @@ define([
                         this.dirOK = true;
                     }));
                     console.log(err.message);
-                    this.geocoder.set("value", "");
+                    this.search.set("value", "");
                 }));
             } else {
                 if (evt.error) console.log(evt.error.message);
@@ -1222,10 +1235,20 @@ define([
 
         // Directions Finished
         _directionsFinished: function (event) {
-            if (this.dirWidget.mergedRouteGraphic != undefined) {
+            console.log("Directions Finished", event);
+            if (this.animTimer) {
+                clearTimeout(this.animTimer);
+                this.animTimer = null;
+            }
+            this.animTimer = setTimeout(lang.hitch(this, this._directionsFinishedOnce), 2000);
+        },
+
+        _directionsFinishedOnce: function () {
+            console.log("Directions Finished Once");
+            if (this.dirWidget.mergedRouteGraphic !== undefined) {
                 var gra = this.dirWidget.mergedRouteGraphic;
                 var ext = gra.geometry.getExtent();
-                var ext2 = ext;
+                var ext2 = lang.clone(ext);
                 if (this.map.width > 570) {
                     var offset = ext.getWidth() * 320 / this.map.width;
                     ext2.update(ext.xmin, ext.ymin, ext.xmax + offset, ext.ymax, ext.spatialReference);
@@ -1338,7 +1361,7 @@ define([
             this.locator.locationToAddress(pt, 500, lang.hitch(this, function (result) {
                 if (result.address) {
                     var label = result.address.Address;
-                    this.geocoder.set("value", label);
+                    this.search.set("value", label);
                     var sym = new PictureMarkerSymbol("images/start.png", 24, 24);
                     var gra = new Graphic(pt, sym, {
                         label: label
@@ -1355,7 +1378,7 @@ define([
                 if (this.config && this.config.i18n) {
                     content = this.config.i18n.location.error;
                 }
-                this.geocoder.set("value", "");
+                this.search.set("value", "");
                 this.map.infoWindow.setContent(content);
                 this.map.infoWindow.show(pt);
             }));
