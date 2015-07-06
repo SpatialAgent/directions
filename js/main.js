@@ -682,7 +682,7 @@ define([
                 stopSymbol: sym,
                 routeSymbol: routeSym,
                 segmentSymbol: segmentSym,
-                centerAtSegmentStart: false
+                doNotFetchTravelModesFromOwningSystem: true
             };
 
 
