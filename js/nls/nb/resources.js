@@ -35,7 +35,8 @@ define(
          "directions": "Veibeskrivelser",
          "filter": "Filter",
          "close": "Lukk",
-         "reverse": "Motsatt retning"
+         "reverse": "Motsatt retning",
+         "mode": "Veksle mellom kjøre- og gåmodus"
       }
    })
 );

@@ -35,7 +35,8 @@ define(
          "directions": "الاتجاهات",
          "filter": "مُنقي",
          "close": "إغلاق",
-         "reverse": "عكس"
+         "reverse": "عكس",
+         "mode": "تبديل وضع القيادة/السير"
       }
    })
 );

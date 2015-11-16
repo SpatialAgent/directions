@@ -15,8 +15,8 @@
     <!-- End Responsive -->
     <!-- Use protocol relative urls that way if the browser is viewing the page via HTTPS the js/css file will be requested using the HTTPS protocol -->
     <link href='//fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="//js.arcgis.com/3.14/dijit/themes/claro/claro.css">
-    <link rel="stylesheet" href="//js.arcgis.com/3.14/esri/css/esri.css">
+    <link rel="stylesheet" href="//js.arcgis.com/3.15/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="//js.arcgis.com/3.15/esri/css/esri.css">
     <!-- Load any application specific styles -->
     <link rel="stylesheet" href="css/main.css">
 </head>
@@ -53,12 +53,13 @@
             </div>
             <!-- Panel Directions -->
             <div id="panelDirections" class="page rounded">
-                 <div id="headerDirections" class="bg pageHeader roundedTop">
+                <div id="headerDirections" class="bg pageHeader roundedTop">
                     <div id="panelTitleDir"></div>
                     <div id="panelStops">
                         <div id="panelOrigin"></div>
                         <div id="panelDestination"></div>
                     </div>
+                    <div id="panelMode"></div>
                     <!-- Buttons -->
                     <div id="btnClose" class="btn btnClose"></div>
                     <div id="btnReverse" class="btn btnReverse"></div>
@@ -86,8 +87,11 @@
             location: package_path + '/..'
         }]
     };
+    if (location.search.match(/locale=([\w-]+)/)) {
+        dojoConfig.locale = RegExp.$1;
+    }
     </script>
-    <script type="text/javascript" src="//js.arcgis.com/3.14/"></script>
+    <script type="text/javascript" src="//js.arcgis.com/3.15/"></script>
     <script type="text/javascript">
     require([
         "config/templateConfig",

@@ -35,7 +35,8 @@ define(
          "directions": "Routebeschrijving",
          "filter": "Filter",
          "close": "Sluiten",
-         "reverse": "Omkeren"
+         "reverse": "Omkeren",
+         "mode": "Stand rijden/wandelen wijzigen"
       }
    })
 );

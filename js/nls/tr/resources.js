@@ -35,7 +35,8 @@ define(
          "directions": "Doğrultular",
          "filter": "Filtre",
          "close": "Kapat",
-         "reverse": "Ters"
+         "reverse": "Ters",
+         "mode": "Sürüş/Yürüme moduna geç"
       }
    })
 );

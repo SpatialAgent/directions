@@ -35,7 +35,8 @@ define(
          "directions": "Vägbeskrivning",
          "filter": "Filter",
          "close": "Stäng",
-         "reverse": "Gör omvänd"
+         "reverse": "Gör omvänd",
+         "mode": "Växla läge Köra/gå"
       }
    })
 );

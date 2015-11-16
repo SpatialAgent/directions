@@ -35,7 +35,8 @@ define(
          "directions": "Pokyny trasy",
          "filter": "Filtr",
          "close": "Zavřít",
-         "reverse": "Obrátit"
+         "reverse": "Obrátit",
+         "mode": "Přepnout režim Jízda/Chůze"
       }
    })
 );

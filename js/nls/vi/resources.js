@@ -35,7 +35,8 @@ define(
          "directions": "Chỉ đường",
          "filter": "Bộ lọc",
          "close": "Đóng",
-         "reverse": "Đảo ngược"
+         "reverse": "Đảo ngược",
+         "mode": "Chuyển đổi chế độ Lái xe/Đi bộ"
       }
    })
 );

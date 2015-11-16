@@ -35,7 +35,8 @@ define(
          "directions": "方向",
          "filter": "篩選",
          "close": "關閉",
-         "reverse": "反轉"
+         "reverse": "反轉",
+         "mode": "切換行駛/行走模式"
       }
    })
 );

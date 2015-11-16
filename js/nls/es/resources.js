@@ -35,7 +35,8 @@ define(
          "directions": "Direcciones",
          "filter": "Filtro",
          "close": "Cerrar",
-         "reverse": "Invertir"
+         "reverse": "Invertir",
+         "mode": "Cambiar modo Conducir/Caminar"
       }
    })
 );

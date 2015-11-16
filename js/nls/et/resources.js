@@ -35,7 +35,8 @@ define(
          "directions": "Teejuhised",
          "filter": "Filter",
          "close": "Sulge",
-         "reverse": "Pööra ümber"
+         "reverse": "Pööra ümber",
+         "mode": "Vaheta režiimi Sõit/kõnd"
       }
    })
 );
