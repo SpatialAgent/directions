@@ -1,21 +1,30 @@
 {
     "configurationSettings": [
         {
-            "category": "<b>App Settings</b>",
+            "category": "<b>Map</b>",
             "fields": [
                 {
                     "type": "appproxies",
                     "serviceProxies": [
                         {
-                            "url": "http://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World",
+                            "name": "route",
                             "title": "Route"
+                        },
+                        {
+                            "name": "closestFacility",
+                            "title": "Closest Facility"
                         }
                     ]
                 },
                 {
                     "type": "webmap",
                     "label": "Select a map"
-                },
+                }    
+            ]
+        },
+        {
+            "category": "<b>General</b>",
+            "fields": [
                 {
                     "type": "string",
                     "fieldName": "title",
@@ -45,7 +54,7 @@
             ]
         },
         {
-            "category": "<b>Destination Settings</b>",
+            "category": "<b>Destination Layer</b>",
             "fields": [
                 {
                     "type": "paragraph",
@@ -89,18 +98,11 @@
                     "fieldName": "useClosestFacility",
                     "label": "Use Closest Facility to improve accuracy of distance calculation if several features are close together.",
                     "tooltip": "Use Closest Facility to improve accuracy of distance calculation if several features are close together."
-                },
-                {
-                    "type": "string",
-                    "fieldName": "closestFacilityURL",
-                    "label": "URL for Closest Facility task (defaults to route.arcgis.com if left blank)",
-                    "tooltip": "URL for Closest Facility task",
-                    "placeHolder": ""
                 }
             ]
         },
         {
-            "category": "<b>Alternate Destination Settings</b> (use if no destination layer is specified)",
+            "category": "<b>Alternate Destination</b>",
             "fields": [
                 {
                     "type": "string",
