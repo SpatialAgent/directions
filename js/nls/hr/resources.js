@@ -16,25 +16,25 @@
  */
 define({
   "map": {
-    "error": "يتعذر إنشاء الخريطة"
+    "error": "Nije moguće stvoriti kartu"
   },
   "location": {
-    "name": "الاسم",
-    "current": "الموقع الحالي",
-    "address": "العنوان",
-    "latitude": "خط العرض",
-    "longitude": "خط الطول",
-    "use": "استخدم هذا الموقع",
-    "error": "يتعذر استخدام هذا الموقع"
+    "name": "Naziv",
+    "current": "Trenutačna lokacija",
+    "address": "Adresa",
+    "latitude": "Geografska širina",
+    "longitude": "Geografska dužina",
+    "use": "Upotrijebi ovu loakciju",
+    "error": "Nije moguće upotrijebiti ovu lokaciju"
   },
   "tooltips": {
-    "toggle": "إظهار/إخفاء",
-    "reset": "إعادة تعيين",
-    "locate": "العثور على الموقع الخاص بي",
-    "directions": "الاتجاهات",
-    "filter": "مُنقي",
-    "close": "إغلاق",
-    "reverse": "عكس",
-    "mode": "تبديل وضع القيادة/السير"
+    "toggle": "Prikaži/skrij",
+    "reset": "Vrati izvorno",
+    "locate": "Pronađi lokaciju",
+    "directions": "Upute",
+    "filter": "Filtar",
+    "close": "Zatvori",
+    "reverse": "Obratno",
+    "mode": "Prebacivanje načina vožnja/hodanje"
   }
 });

@@ -14,29 +14,27 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define(
-    ({
-      "map": {
-         "error": "Kan ikke oprette kort"
-      },
-      "location": {
-         "name": "Navn",
-         "current": "Nuværende placering",
-         "address": "Adresse",
-         "latitude": "Breddegrad",
-         "longitude": "Længdegrad",
-         "use": "Brug denne position",
-         "error": "Kan ikke bruge denne position"
-      },
-      "tooltips": {
-         "toggle": "Vis/Skjul",
-         "reset": "Nulstil",
-         "locate": "Find min position",
-         "directions": "Vejledninger",
-         "filter": "Filtrér",
-         "close": "Luk",
-         "reverse": "Modsat",
-         "mode": "Skift tilstand Kør/Gå"
-      }
-   })
-);
+define({
+  "map": {
+    "error": "Kan ikke oprette kort"
+  },
+  "location": {
+    "name": "Navn",
+    "current": "Nuværende placering",
+    "address": "Adresse",
+    "latitude": "Breddegrad",
+    "longitude": "Længdegrad",
+    "use": "Brug denne position",
+    "error": "Kan ikke bruge denne position"
+  },
+  "tooltips": {
+    "toggle": "Vis/Skjul",
+    "reset": "Nulstil",
+    "locate": "Find min position",
+    "directions": "Vejledninger",
+    "filter": "Filtrér",
+    "close": "Luk",
+    "reverse": "Modsat",
+    "mode": "Skift tilstand Kør/Gå"
+  }
+});

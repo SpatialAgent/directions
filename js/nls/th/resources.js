@@ -14,29 +14,27 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define(
-    ({
-      "map": {
-         "error": "ไม่สามารถสร้างแผนที่ได้"
-      },
-      "location": {
-         "name": "ชื่อ",
-         "current": "ตำแหน่งปัจจุบัน",
-         "address": "ที่อยู่",
-         "latitude": "ละติจูด",
-         "longitude": "ลองจิจูด",
-         "use": "ใช้ที่ตั้งนี้",
-         "error": "ไม่สามารถใช้ที่ตั้งนี้"
-      },
-      "tooltips": {
-         "toggle": "แสดง/ซ่อน",
-         "reset": "รีเซ็ต",
-         "locate": "ค้นหาที่ตั้งของฉัน",
-         "directions": "คำสั่ง",
-         "filter": "ตัวกรอง",
-         "close": "ปิด",
-         "reverse": "กลับหลัง",
-         "mode": "สลับโหมดการขับขี่ / เดิน"
-      }
-   })
-);
+define({
+  "map": {
+    "error": "ไม่สามารถสร้างแผนที่ได้"
+  },
+  "location": {
+    "name": "ชื่อ",
+    "current": "ตำแหน่งปัจจุบัน",
+    "address": "ที่อยู่",
+    "latitude": "ละติจูด",
+    "longitude": "ลองจิจูด",
+    "use": "ใช้ที่ตั้งนี้",
+    "error": "ไม่สามารถใช้ที่ตั้งนี้"
+  },
+  "tooltips": {
+    "toggle": "แสดง/ซ่อน",
+    "reset": "รีเซ็ต",
+    "locate": "ค้นหาที่ตั้งของฉัน",
+    "directions": "คำสั่ง",
+    "filter": "ตัวกรอง",
+    "close": "ปิด",
+    "reverse": "กลับหลัง",
+    "mode": "สลับโหมดการขับขี่ / เดิน"
+  }
+});
