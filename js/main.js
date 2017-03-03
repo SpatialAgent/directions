@@ -594,6 +594,7 @@ define([
             }
             var options = {
                 map: this.map,
+                directionsLengthUnits: units,
                 //maxStops : 2,
                 showTravelModesOption: true,
                 showTrafficOption: false,
@@ -1143,12 +1144,12 @@ define([
             this.destLayer.clear();
             var rgb = Color.fromString(this.color).toRgb();
             var symML = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 255, 1]), 1);
-            var symM = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 22, symML, this.color);
+            var symM = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 22, symML, new Color(rgb));
             var symL = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([rgb[0], rgb[1], rgb[2], 0.8]), 4);
             var symF = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, symL, new Color([255, 255, 255, 0.4]));
             var fnt = new Font();
             fnt.family = "Arial";
-            fnt.size = "10px";
+            fnt.size = 9; //"10px";
             for (var i = 0; i < this.opFeatures.length; i++) {
                 var num = i + 1;
                 var gra = this.opFeatures[i];
@@ -1161,7 +1162,7 @@ define([
                 if (geom.type === "polygon") {
                     this.destLayer.add(new Graphic(geom, symF, attr));
                 }
-                var symText = new TextSymbol(num, fnt, "#ffffff");
+                var symText = new TextSymbol(num, fnt, new Color([255, 255, 255]));
                 symText.setOffset(0, -4);
                 var graRing = new Graphic(pt, symM, attr);
                 graRing.id = "R_" + i;
@@ -1244,6 +1245,9 @@ define([
         // Route to destination
         _routeToDestination: function(gra) {
             var pt = gra.geometry;
+            if (gra.geometry.type !== "point") {
+                pt = gra.geometry.getExtent().getCenter();
+            }
             dom.byId("panelDestination").innerHTML = gra.getTitle();
             this._showPage(1);
             if (this.originObj) {
@@ -1514,6 +1518,10 @@ define([
                     }
                 }
             }
+            if (window.location.href.toLowerCase().indexOf("https:") > -1 && 
+                routeUrl.toLowerCase().indexOf("https:") === -1) {
+                 routeUrl.replace("http:", "https:");
+            }
             console.log("Fixed Route URL", routeUrl);
             return routeUrl;
         },
@@ -1544,6 +1552,10 @@ define([
                         proxyUrl: this.config.proxyurl
                     });
                 }
+            }
+            if (window.location.href.toLowerCase().indexOf("https:") > -1 &&
+                cfUrl.toLowerCase().indexOf("https:") === -1) {
+                 cfUrl.replace("http:", "https:");
             }
             console.log("Fixed Closest Facility URL", cfUrl);
             return cfUrl;

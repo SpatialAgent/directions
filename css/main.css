@@ -391,7 +391,11 @@ hr {
 
 /* Directions */
 
-.esriStopsContainer {
+/*.esriStopsContainer {
+    display: none;
+}*/
+
+.esriStopsContainer * {
     display: none;
 }
 

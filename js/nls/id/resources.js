@@ -16,25 +16,25 @@
  */
 define({
   "map": {
-    "error": "Nije moguće stvoriti kartu"
+    "error": "Tidak dapat membuat peta"
   },
   "location": {
-    "name": "Naziv",
-    "current": "Trenutačna lokacija",
-    "address": "Adresa",
-    "latitude": "Geografska širina",
-    "longitude": "Geografska dužina",
-    "use": "Upotrijebi ovu lokaciju",
-    "error": "Nije moguće upotrijebiti ovu lokaciju"
+    "name": "Nama",
+    "current": "Lokasi Saat ini",
+    "address": "Alamat",
+    "latitude": "Garis Lintang",
+    "longitude": "Garis Bujur",
+    "use": "Gunakan lokasi ini",
+    "error": "Tidak dapat menggunakan lokasi ini"
   },
   "tooltips": {
-    "toggle": "Prikaži/skrij",
-    "reset": "Vrati izvorno",
-    "locate": "Pronađi lokaciju",
-    "directions": "Upute",
-    "filter": "Filtar",
-    "close": "Zatvori",
-    "reverse": "Obratno",
-    "mode": "Prebacivanje načina vožnja/hodanje"
+    "toggle": "Tampilkan/Sembunyikan",
+    "reset": "Atur ulang",
+    "locate": "Temukan lokasi saya",
+    "directions": "Petunjuk arah",
+    "filter": "Filter",
+    "close": "Tutup",
+    "reverse": "Balikkan",
+    "mode": "Pindah mode Berkendara/Berjalan"
   }
 });

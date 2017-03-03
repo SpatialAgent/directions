@@ -43,7 +43,8 @@
                     "type": "color",
                     "fieldName": "color",
                     "label": "Color",
-                    "tooltip": "Color"
+                    "tooltip": "Color",
+                    "sharedThemeProperty":"header.background"
                 },
                 {
                     "type": "boolean",
@@ -136,7 +137,7 @@
         }
     ],
     "values": {
-        "title": "",
+        "title": "Find Nearest",
         "prompt": "Enter address",
         "color": "#80ab00",
         "styleBasemap": true,
