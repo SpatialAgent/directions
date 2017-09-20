@@ -44,7 +44,7 @@ define({
     "color" : "#80ab00",
     "title" : "Find Nearest",
     "prompt" : "Enter address",
-    "styleBasemap" : 1,
+    "styleBasemap" : true,
     // **************************** //
     
     // **************************** //

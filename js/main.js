@@ -59,7 +59,7 @@ define([
     "esri/tasks/locator",
     "esri/tasks/query",
     "esri/urlUtils"
-], function(
+], function (
     ready,
     array,
     Color,
@@ -137,55 +137,52 @@ define([
         closestFacilityWalkMode: null,
 
         // Startup
-        startup: function(config) {
+        startup: function (config) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information.
 
             if (config) {
                 this.config = config;
-                console.log("CONFIG", this.config);
-                console.log("HELPER SERVICES", this.config.helperServices);
-                console.log("LAYER MIXINS", this.config.layerMixins);
                 this._setColor();
                 this._setProtocolHandler();
                 // proxy rules
                 //if (this.config.proxyurl !== "") {
-                    // urlUtils.addProxyRule({
-                    //     urlPrefix: "route.arcgis.com",
-                    //     proxyUrl: this.config.proxyurl
-                    // });
-                    // urlUtils.addProxyRule({
-                    //     urlPrefix: "traffic.arcgis.com",
-                    //     proxyUrl: this.config.proxyurl
-                    // });
-                    // TO DO: check proxy url
-                    // console.log("HELPER SERVICES", this.config.helperServices);
-                    // console.log("LAYER MIXINS", this.config.layerMixins);
-                    // if (this.config.helperServices.route && this.config.helperServices.route.url) {
-                    //     var routeUrl = null;
-                    //     array.some(this.config.layerMixins, lang.hitch(this, function(layerMixin) {
-                    //         if (layerMixin.url === this.config.helperServices.route.url) {
-                    //             //routeUrl = layerMixin.mixin.url;
-                    //             routeUrl = this._fixProxyUrl(layerMixin);
-                    //             return true;
-                    //         }
-                    //     }));
-                    //     // DO NOT USE PROXY FOR PROXIED SERVICE
-                    //     // urlUtils.addProxyRule({
-                    //     //     urlPrefix: routeUrl || this.config.helperServices.route.url,
-                    //     //     proxyUrl: this.config.proxyurl
-                    //     // });
-                    // }
-                    // if (this.config.routeUtility) {
-                    // urlUtils.addProxyRule({
-                    // urlPrefix : this.config.routeUtility,
-                    // proxyUrl : this.config.proxyurl
-                    // });
-                    // }
+                // urlUtils.addProxyRule({
+                //     urlPrefix: "route.arcgis.com",
+                //     proxyUrl: this.config.proxyurl
+                // });
+                // urlUtils.addProxyRule({
+                //     urlPrefix: "traffic.arcgis.com",
+                //     proxyUrl: this.config.proxyurl
+                // });
+                // TO DO: check proxy url
+                // console.log("HELPER SERVICES", this.config.helperServices);
+                // console.log("LAYER MIXINS", this.config.layerMixins);
+                // if (this.config.helperServices.route && this.config.helperServices.route.url) {
+                //     var routeUrl = null;
+                //     array.some(this.config.layerMixins, lang.hitch(this, function(layerMixin) {
+                //         if (layerMixin.url === this.config.helperServices.route.url) {
+                //             //routeUrl = layerMixin.mixin.url;
+                //             routeUrl = this._fixProxyUrl(layerMixin);
+                //             return true;
+                //         }
+                //     }));
+                //     // DO NOT USE PROXY FOR PROXIED SERVICE
+                //     // urlUtils.addProxyRule({
+                //     //     urlPrefix: routeUrl || this.config.helperServices.route.url,
+                //     //     proxyUrl: this.config.proxyurl
+                //     // });
+                // }
+                // if (this.config.routeUtility) {
+                // urlUtils.addProxyRule({
+                // urlPrefix : this.config.routeUtility,
+                // proxyUrl : this.config.proxyurl
+                // });
+                // }
                 //}
                 // document ready
-                ready(lang.hitch(this, function() {
+                ready(lang.hitch(this, function () {
                     //supply either the webmap id or, if available, the item info
                     var itemInfo = this.config.itemInfo || this.config.webmap;
                     //If a custom extent is set as a url parameter handle that before creating the map
@@ -208,7 +205,7 @@ define([
         },
 
         // Report error
-        reportError: function(error) {
+        reportError: function (error) {
             // remove loading class from body
             domClass.remove(document.body, "app-loading");
             domClass.add(document.body, "app-error");
@@ -228,7 +225,7 @@ define([
         },
 
         // Set Color
-        _setColor: function() {
+        _setColor: function () {
             this.color = this.config.color;
 
             var style1 = document.createElement('style');
@@ -242,7 +239,7 @@ define([
                 style1.appendChild(t1);
             }
 
-            if (this.config.styleBasemap === 1) {
+            if (this.config.styleBasemap) {
                 var style2 = document.createElement('style');
                 var str2 = '.layerTile {filter: url(css/filters.svg#grayscale); filter: gray; -webkit-filter: grayscale(1); -ms-filter: grayscale(100%); -moz-opacity: 0.7; -khtml-opacity: 0.7; opacity: 0.7;}';
                 style2.setAttribute("type", "text/css");
@@ -269,8 +266,8 @@ define([
         },
 
         // set protocol handler
-        _setProtocolHandler: function() {
-            esriId.setProtocolErrorHandler(function() {
+        _setProtocolHandler: function () {
+            esriId.setProtocolErrorHandler(function () {
                 if (window.confirm("Your browser is not CORS enabled. You need to redirect to HTTPS. Continue?")) {
                     window.location = window.location.href.replace("http:", "https:");
                 }
@@ -278,7 +275,7 @@ define([
         },
 
         // Create web map based on the input web map id
-        _createWebMap: function(itemInfo) {
+        _createWebMap: function (itemInfo) {
 
             // popup
             var popupSym = new SimpleMarkerSymbol("circle", 2, null, new Color([0, 0, 0, 0.1]));
@@ -306,7 +303,7 @@ define([
                 layerMixins: this.config.layerMixins || [],
                 editable: this.config.editable,
                 bingMapsKey: this.config.bingKey
-            }).then(lang.hitch(this, function(response) {
+            }).then(lang.hitch(this, function (response) {
 
                 var appProps = response.itemInfo.itemData.applicationProperties;
                 if (appProps && appProps.viewing && appProps.viewing.search) {
@@ -341,7 +338,7 @@ define([
                     // do something with the map
                     this._mapLoaded();
                 } else {
-                    on.once(this.map, "load", lang.hitch(this, function() {
+                    on.once(this.map, "load", lang.hitch(this, function () {
                         // do something with the map
                         this._mapLoaded();
                     }));
@@ -350,7 +347,7 @@ define([
         },
 
         // Calculate Offset
-        _calculateOffset: function(response) {
+        _calculateOffset: function (response) {
             try {
                 var lods = response.itemInfo.itemData.baseMap.baseMapLayers[0].layerObject.tileInfo.lods;
                 var lod = lods[this.config.defaultZoomLevel || 13];
@@ -362,7 +359,7 @@ define([
         },
 
         // Map Loaded - Map is ready
-        _mapLoaded: function() {
+        _mapLoaded: function () {
             query(".bg").style("backgroundColor", this.color.toString());
             query(".esriSimpleSlider").style("backgroundColor", this.color.toString());
             domClass.remove(document.body, "app-loading");
@@ -371,7 +368,7 @@ define([
         },
 
         // Process Destinations
-        _processDestinations: function() {
+        _processDestinations: function () {
             this.opFeatures = [];
             var pt, gra;
             if (this.config.longitude && this.config.latitude) {
@@ -392,7 +389,7 @@ define([
                     outFields: ["Loc_name"]
                 };
                 this.locator.addressToLocations(options);
-                this.locator.addressToLocations(options, lang.hitch(this, function(evt) {
+                this.locator.addressToLocations(options, lang.hitch(this, function (evt) {
                     if (evt.length > 0) {
                         var candidate = evt[0];
                         var address = candidate.address;
@@ -405,7 +402,7 @@ define([
                         this._setupTemplate();
                         this._processDestinationFeatures();
                     }
-                }), function(err) {
+                }), function (err) {
                     console.log(err.message);
                 });
             } else {
@@ -414,10 +411,9 @@ define([
         },
 
         // Process Operational Layers
-        _processOperationalLayers: function() {
+        _processOperationalLayers: function () {
             if (this.config.destLayer) {
-                array.forEach(this.opLayers, lang.hitch(this, function(layer) {
-                    console.log(layer, this.config.destLayer.id);
+                array.forEach(this.opLayers, lang.hitch(this, function (layer) {
                     if ((layer.featureCollection) && (layer.id + "_0" === this.config.destLayer.id)) {
                         this.config.destLayer.title = layer.title;
                         this.opLayerObj = layer;
@@ -436,10 +432,15 @@ define([
                         this.opFeatureLayer = true;
                         this.opLayer = layer.layerObject;
                         this.opLayer.setVisibility(false);
+
                     }
                 }));
             } else {
                 this.opLayer = this._getDefaultOperationalLayer();
+                if (typeof this.opLayer.setVisibility == "function") {
+                    // hide default layer visibility
+                    this.opLayer.setVisibility(false);
+                }
             }
             this._setupTemplate();
             if (this.opFeatureLayer) {
@@ -450,7 +451,7 @@ define([
         },
 
         // get default operational layer
-        _getDefaultOperationalLayer: function() {
+        _getDefaultOperationalLayer: function () {
             this.opLayers.reverse();
             if (this.opLayers.length > 0) {
                 for (var i = 0; i < this.opLayers.length; i++) {
@@ -477,6 +478,7 @@ define([
                         };
                         this.opLayerObj = layer;
                         this.opFeatureLayer = true;
+
                         return layer.layerObject;
                     }
                 }
@@ -485,7 +487,7 @@ define([
         },
 
         // setup template
-        _setupTemplate: function() {
+        _setupTemplate: function () {
             var infoTemplate;
             if (!this.opLayer) {
                 var title = this.config.destination || this.config.title;
@@ -503,10 +505,10 @@ define([
 
         // ** UI FUNCTIONS ** //
         // Create Geocoder Options
-        _createGeocoderOptions: function() {
+        _createGeocoderOptions: function () {
             var hasEsri = false;
             var geocoders = lang.clone(this.config.helperServices.geocode);
-            array.forEach(geocoders, lang.hitch(this, function(geocoder) {
+            array.forEach(geocoders, lang.hitch(this, function (geocoder) {
                 if (geocoder.url.indexOf(".arcgis.com/arcgis/rest/services/World/GeocodeServer") > -1) {
                     hasEsri = true;
                     geocoder.name = "Esri World Geocoder";
@@ -516,7 +518,7 @@ define([
                 }
             }));
             //only use geocoders with a singleLineFieldName
-            geocoders = array.filter(geocoders, function(geocoder) {
+            geocoders = array.filter(geocoders, function (geocoder) {
                 return (esriLang.isDefined(geocoder.singleLineFieldName));
             });
             var esriIdx;
@@ -543,7 +545,7 @@ define([
         },
 
         // Configure Map UI
-        _configureMapUI: function() {
+        _configureMapUI: function () {
 
             // geolocate
             var geoLocate = new LocateButton({
@@ -563,16 +565,16 @@ define([
                 useMapExtent: true,
                 geocoders: this.config.helperServices.geocode,
                 itemData: this.config.response.itemInfo.itemData
-                    //configuredSearchLayers: configuredSearchLayers
+                //configuredSearchLayers: configuredSearchLayers
             });
             var searchOptions = searchSources.createOptions();
-            array.forEach(searchOptions.sources, lang.hitch(this, function(source) {
+            array.forEach(searchOptions.sources, lang.hitch(this, function (source) {
                 source.placeholder = this.config.prompt;
             }));
             searchOptions.allPlaceholder = this.config.prompt;
             this.search = new Search(searchOptions, "panelGeocoder");
 
-            this.search.on("search-results", lang.hitch(this, function(event) {
+            this.search.on("search-results", lang.hitch(this, function (event) {
                 console.log("search-results", event);
             }));
             this.search.on("select-result", lang.hitch(this, this._searchSelect));
@@ -617,7 +619,7 @@ define([
             // GET PROXIED ROUTE URL
             var routeUrl = this._getProxiedRouteUrl();
             options.routeTaskUrl = routeUrl;
-            
+
             if (this.config.routeUtility !== "") {
                 options.routeTaskUrl = this.config.routeUtility;
             }
@@ -636,12 +638,11 @@ define([
         },
 
         // Setup Modes
-        _setupModes: function() {
-            console.log("GET TRAVEL MODES");
+        _setupModes: function () {
             this.curMode = null;
             var supModes = this.dirWidget.getSupportedTravelModeNames();
             var modes = [];
-            array.forEach(supModes, function(mode) {
+            array.forEach(supModes, function (mode) {
                 if (mode === "Driving Time" || mode === "Walking Time") {
                     modes.push(mode);
                 }
@@ -655,7 +656,7 @@ define([
         },
 
         // Toggle Mode
-        _toggleMode: function() {
+        _toggleMode: function () {
             var pMode = dom.byId("panelMode");
             if (this.curMode === "Walking Time") {
                 this.curMode = "Driving Time";
@@ -668,7 +669,7 @@ define([
         },
 
         // Setup Closest Facility
-        _setupClosestFacility: function() {
+        _setupClosestFacility: function () {
             //this.config.useClosestFacility = true;
             if (this.config.useClosestFacility) {
                 //var url = "http://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World";
@@ -698,7 +699,7 @@ define([
         },
 
         // Configure UI
-        _configureUI: function() {
+        _configureUI: function () {
 
             // top
             if (this.config.title !== "") {
@@ -748,32 +749,32 @@ define([
         },
 
         // Update Theme
-        _updateTheme: function() {
+        _updateTheme: function () {
             query(".bg").style("backgroundColor", this.color.toString());
             query(".esriPopup .titlePane").style("backgroundColor", this.color.toString());
         },
 
         // Reset App
-        _resetApp: function() {
+        _resetApp: function () {
             this._unselectRecords();
             this._updateOrigin(null, null);
             this._processDestinationFeatures();
         },
 
         // Close Directions
-        _closeDirections: function() {
+        _closeDirections: function () {
             this._unselectRecords();
             this._showPage(0);
         },
 
         // Show Page
-        _showPage: function(num) {
+        _showPage: function (num) {
             this.page = num;
             var promise;
             switch (num) {
                 case 0:
                     promise = this._clearDirections();
-                    promise.then(lang.hitch(this, function() {
+                    promise.then(lang.hitch(this, function () {
                         this.dirOK = true;
                     }));
                     // dom.byId("panelTitle").innerHTML = this.config.title;
@@ -809,12 +810,12 @@ define([
 
         // ** GEO FUNCTIONS ** //
         // geoLocated
-        _geoLocated: function(evt) {
+        _geoLocated: function (evt) {
             var gra;
             var pt;
             if (evt.graphic) {
                 pt = evt.graphic.geometry;
-                this.locator.locationToAddress(pt, 500, lang.hitch(this, function(result) {
+                this.locator.locationToAddress(pt, 500, lang.hitch(this, function (result) {
                     if (result.address) {
                         var label = result.address.Address;
                         this.search.set("value", label);
@@ -824,12 +825,11 @@ define([
                         });
                         this._updateOrigin(gra, gra);
                     }
-                }), lang.hitch(this, function(err) {
+                }), lang.hitch(this, function (err) {
                     var promise = this._clearDirections();
-                    promise.then(lang.hitch(this, function() {
+                    promise.then(lang.hitch(this, function () {
                         this.dirOK = true;
                     }));
-                    console.log(err.message);
                     this.search.set("value", "");
                 }));
             } else {
@@ -841,7 +841,7 @@ define([
         },
 
         // search select
-        _searchSelect: function(obj) {
+        _searchSelect: function (obj) {
             var result = obj.result;
             var pt = result.feature.geometry;
             var label = result.name;
@@ -853,7 +853,7 @@ define([
         },
 
         // search clear
-        _searchClear: function() {
+        _searchClear: function () {
             if (this.dirOK) {
                 this._updateOrigin(null, null);
             }
@@ -861,7 +861,7 @@ define([
 
         // ** QUERY FUNCTIONS ** //
         // Query Destinations
-        _queryDestinations: function() {
+        _queryDestinations: function () {
             var expr = "1=1";
             // if (this.opLayerObj.layerDefinition && this.opLayerObj.layerDefinition.definitionExpression) {
             // expr = this.opLayerObj.layerDefinition.definitionExpression;
@@ -876,9 +876,9 @@ define([
         },
 
         // Process Results
-        _processResults: function(results) {
+        _processResults: function (results) {
             this.opFeatures = [];
-            array.forEach(results.features, lang.hitch(this, function(gra) {
+            array.forEach(results.features, lang.hitch(this, function (gra) {
                 if (gra.geometry) {
                     this.opFeatures.push(gra);
                 }
@@ -888,13 +888,13 @@ define([
         },
 
         // Process Error
-        _processError: function(err) {
+        _processError: function (err) {
             console.log(err.message);
         },
 
         // Process Destination
-        _processDestinationFeatures: function() {
-            array.forEach(this.opFeatures, lang.hitch(this, function(gra) {
+        _processDestinationFeatures: function () {
+            array.forEach(this.opFeatures, lang.hitch(this, function (gra) {
                 var geom = gra.geometry;
                 var pt = geom;
                 if (geom.type !== "point") {
@@ -916,9 +916,7 @@ define([
         },
 
         // Process Closest Features
-        _processClosestFeatures: function() {
-
-            console.log("Using Closest Facility Task");
+        _processClosestFeatures: function () {
 
             var incidents = new FeatureSet();
             var gra = new Graphic(this.origin.geometry);
@@ -927,7 +925,7 @@ define([
             var top5 = this.opFeatures.slice(0, 5);
             var facilities = new FeatureSet();
             var rank = 0;
-            array.forEach(top5, function(g) {
+            array.forEach(top5, function (g) {
                 var g2 = new Graphic(g.geometry);
                 g2.attributes = {
                     Name: rank
@@ -950,16 +948,14 @@ define([
                 params.travelMode = this.closestFacilityWalkMode;
             }
 
-            this.closestFacilityTask.solve(params, lang.hitch(this, function(solveResult) {
+            this.closestFacilityTask.solve(params, lang.hitch(this, function (solveResult) {
                 if (solveResult.messages.length > 0) {
-                    console.log("Closest Facility Message", solveResult.messages[0]);
                     this._updateDestinations();
                 } else {
                     var newFacilities = solveResult.facilities;
                     if (newFacilities.length > 0) {
                         var rank = parseInt(newFacilities[0].attributes.Name, 10);
                         if (rank > 0) {
-                            console.log("Switching to closest facility", rank);
                             var ele = this.opFeatures[rank];
                             this.opFeatures.splice(rank, 1);
                             this.opFeatures.splice(0, 0, ele);
@@ -967,7 +963,7 @@ define([
                     }
                     this._updateDestinations();
                 }
-            }), lang.hitch(this, function(error) {
+            }), lang.hitch(this, function (error) {
                 console.log("Closest Facility Error", error);
                 this._updateDestinations();
             }));
@@ -975,7 +971,7 @@ define([
         },
 
         // Update Destinaions
-        _updateDestinations: function() {
+        _updateDestinations: function () {
             if (registry.byId("recPane")) {
                 registry.byId("recPane").destroy();
             }
@@ -1048,12 +1044,12 @@ define([
         },
 
         // Switch View
-        _switchView: function() {
+        _switchView: function () {
             setTimeout(lang.hitch(this, this._toggleScroll), 2000);
         },
 
         // Select Feature
-        _selectFeature: function(evt) {
+        _selectFeature: function (evt) {
             var gra = evt.graphic;
             var num = gra.id;
             num = num.replace("R_", "").replace("T_", "");
@@ -1064,8 +1060,8 @@ define([
         },
 
         // Select Record
-        _selectRecord: function(num, zoom) {
-            if (typeof(zoom) === 'undefined') {
+        _selectRecord: function (num, zoom) {
+            if (typeof (zoom) === 'undefined') {
                 zoom = true;
             }
             this._unselectRecords();
@@ -1077,7 +1073,7 @@ define([
         },
 
         // Highlight Record
-        _highlightRecord: function(num, zoom) {
+        _highlightRecord: function (num, zoom) {
             this.selectedNum = num;
             var gra = this.opFeatures[num];
             domClass.add("rec_" + num, "recOpened");
@@ -1098,17 +1094,17 @@ define([
         },
 
         // Select Route
-        _selectRoute: function(num, evt) {
+        _selectRoute: function (num, evt) {
             event.stop(evt);
             var promise = this._clearDirections();
-            promise.then(lang.hitch(this, function() {
+            promise.then(lang.hitch(this, function () {
                 this.dirOK = true;
                 this._showRoute(num);
             }));
         },
 
         // Show Route
-        _showRoute: function(num) {
+        _showRoute: function (num) {
             var zoom = true;
             if (this.origin) {
                 zoom = false;
@@ -1120,7 +1116,7 @@ define([
         },
 
         // Update Position
-        _updatePosition: function() {
+        _updatePosition: function () {
             dom.byId("bodyFeatures").scrollTop = 0;
             var num = this.selectedNum;
             var pos = num * 60;
@@ -1128,19 +1124,19 @@ define([
         },
 
         // Unselect Records
-        _unselectRecords: function() {
+        _unselectRecords: function () {
             this.hiLayer.clear();
             if (registry.byId("recPane")) {
                 registry.byId("recPane").destroy();
             }
             //domConstruct.destroy("recDetails");
-            query(".recOpened").forEach(function(node) {
+            query(".recOpened").forEach(function (node) {
                 domClass.remove(node, "recOpened");
             });
         },
 
         // Render Destinations
-        _renderDestinations: function() {
+        _renderDestinations: function () {
             this.destLayer.clear();
             var rgb = Color.fromString(this.color).toRgb();
             var symML = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 255, 1]), 1);
@@ -1174,7 +1170,7 @@ define([
         },
 
         // Get point for geometry
-        _getPointForGeometry: function(geom) {
+        _getPointForGeometry: function (geom) {
             if (geom.type === "polygon") {
                 return geom.getCentroid();
             }
@@ -1187,7 +1183,7 @@ define([
         },
 
         // get distance
-        _getDistance: function(loc) {
+        _getDistance: function (loc) {
             var pt = this.map.extent.getCenter();
             if (this.origin) {
                 pt = this.origin.geometry;
@@ -1207,7 +1203,7 @@ define([
         },
 
         // Compare distance
-        _compareDistance: function(a, b) {
+        _compareDistance: function (a, b) {
             if (a.attributes.DISTANCE < b.attributes.DISTANCE) {
                 return -1;
             }
@@ -1218,7 +1214,7 @@ define([
         },
 
         // Zoom to destination
-        _zoomToDestination: function(gra, zoom) {
+        _zoomToDestination: function (gra, zoom) {
             var pt = gra.attributes.POINT_LOCATION;
             if (zoom) {
                 var c = pt;
@@ -1236,14 +1232,14 @@ define([
         },
 
         // Set Travel Mode
-        _setTravelMode: function() {
+        _setTravelMode: function () {
             this.dirWidget.routeParams.travelMode = this.curMode;
             var promise = this.dirWidget.setTravelMode(this.curMode);
             return promise;
         },
 
         // Route to destination
-        _routeToDestination: function(gra) {
+        _routeToDestination: function (gra) {
             var pt = gra.geometry;
             if (gra.geometry.type !== "point") {
                 pt = gra.geometry.getExtent().getCenter();
@@ -1253,8 +1249,7 @@ define([
             if (this.originObj) {
                 if (this.curMode) {
                     var promise = this._setTravelMode();
-                    promise.then(lang.hitch(this, function() {
-                        console.log("Route To Dest", this.dirWidget.routeParams.travelMode);
+                    promise.then(lang.hitch(this, function () {
                         this.dirWidget.addStops([this.originObj, pt]);
                     }));
                 } else {
@@ -1264,7 +1259,7 @@ define([
         },
 
         // Reverse Directions
-        _reverseDirections: function() {
+        _reverseDirections: function () {
             var val1 = dom.byId("panelOrigin").innerHTML;
             var val2 = dom.byId("panelDestination").innerHTML;
             dom.byId("panelOrigin").innerHTML = val2;
@@ -1272,11 +1267,11 @@ define([
             var stops = this.dirWidget.stops.slice();
             stops.reverse();
             var promise = this._clearDirections();
-            promise.then(lang.hitch(this, function() {
+            promise.then(lang.hitch(this, function () {
                 this.dirOK = true;
                 if (this.curMode) {
                     var promise2 = this._setTravelMode();
-                    promise2.then(lang.hitch(this, function() {
+                    promise2.then(lang.hitch(this, function () {
                         this.dirWidget.addStops(stops);
                     }));
                 } else {
@@ -1286,7 +1281,7 @@ define([
         },
 
         // Clear Directions
-        _clearDirections: function() {
+        _clearDirections: function () {
             if (this.trackingPt) {
                 this.map.graphics.remove(this.trackingPt);
             }
@@ -1296,8 +1291,7 @@ define([
         },
 
         // Directions Finished
-        _directionsFinished: function(event) {
-            console.log("Directions Finished", event);
+        _directionsFinished: function (event) {
             if (this.animTimer) {
                 clearTimeout(this.animTimer);
                 this.animTimer = null;
@@ -1305,8 +1299,7 @@ define([
             this.animTimer = setTimeout(lang.hitch(this, this._directionsFinishedOnce), 2000);
         },
 
-        _directionsFinishedOnce: function() {
-            console.log("Directions Finished Once");
+        _directionsFinishedOnce: function () {
             if (this.dirWidget.mergedRouteGraphic !== undefined) {
                 var gra = this.dirWidget.mergedRouteGraphic;
                 var ext = gra.geometry.getExtent();
@@ -1330,11 +1323,11 @@ define([
                     route: gra.geometry
                 });
                 this.map.graphics.add(this.trackingPt);
-                setTimeout(lang.hitch(this, function() {
+                setTimeout(lang.hitch(this, function () {
                     this.trackingPt.updateSymbol();
                 }), 2000);
             } else {
-                setTimeout(lang.hitch(this, function() {
+                setTimeout(lang.hitch(this, function () {
                     this.dirWidget.removeStops();
                 }), 2000);
                 console.log("Error generating route");
@@ -1342,12 +1335,12 @@ define([
         },
 
         // Update Origin
-        _updateOrigin: function(gra, obj) {
+        _updateOrigin: function (gra, obj) {
             this.map.graphics.clear();
             this.origin = gra;
             this.originObj = obj;
             var promise = this._clearDirections();
-            promise.then(lang.hitch(this, function() {
+            promise.then(lang.hitch(this, function () {
                 this.dirOK = true;
                 if (this.origin) {
                     this.map.graphics.add(gra);
@@ -1368,7 +1361,7 @@ define([
         },
 
         // Update Route Tools
-        _updateRouteTools: function() {
+        _updateRouteTools: function () {
             if (this.page === 1 && this.origin) {
                 domStyle.set("btnReverse", "display", "block");
             } else {
@@ -1377,12 +1370,12 @@ define([
         },
 
         // Toggle Scroll
-        _toggleScroll: function() {
+        _toggleScroll: function () {
             this._animateScroll();
         },
 
         // Animate Scroll
-        _animateScroll: function() {
+        _animateScroll: function () {
             var box = html.getContentBox(dom.byId("panelContent"));
             var pos = document.body.scrollTop || document.documentElement.scrollTop;
             var start = 0;
@@ -1395,7 +1388,7 @@ define([
                 duration: 300,
                 curve: [start, end]
             });
-            on(anim, "Animate", function(v) {
+            on(anim, "Animate", function (v) {
                 document.body.scrollTop = v;
                 document.documentElement.scrollTop = v;
             });
@@ -1403,7 +1396,7 @@ define([
         },
 
         // Map Click Handler
-        _mapClickHandler: function(evt) {
+        _mapClickHandler: function (evt) {
             if (evt.target.id === "panelMap_gc") {
                 var pt = evt.mapPoint;
                 var content = "Use this location";
@@ -1425,9 +1418,9 @@ define([
         },
 
         // Use Click Location
-        _useClickLocation: function(pt) {
+        _useClickLocation: function (pt) {
             this.map.infoWindow.hide();
-            this.locator.locationToAddress(pt, 500, lang.hitch(this, function(result) {
+            this.locator.locationToAddress(pt, 500, lang.hitch(this, function (result) {
                 if (result.address) {
                     var label = result.address.Address;
                     this.search.set("value", label);
@@ -1437,9 +1430,9 @@ define([
                     });
                     this._updateOrigin(gra, gra);
                 }
-            }), lang.hitch(this, function(err) {
+            }), lang.hitch(this, function (err) {
                 var promise = this._clearDirections();
-                promise.then(lang.hitch(this, function() {
+                promise.then(lang.hitch(this, function () {
                     this.dirOK = true;
                 }));
                 console.log(err);
@@ -1453,7 +1446,7 @@ define([
             }));
         },
 
-        _setLevel: function(options) {
+        _setLevel: function (options) {
             var level = this.config.level;
             //specify center and zoom if provided as url params 
             if (level) {
@@ -1462,7 +1455,7 @@ define([
             return options;
         },
 
-        _setCenter: function(options) {
+        _setCenter: function (options) {
             var center = this.config.center;
             if (center) {
                 var points = center.split(",");
@@ -1473,7 +1466,7 @@ define([
             return options;
         },
 
-        _setExtent: function(info) {
+        _setExtent: function (info) {
             var e = this.config.extent;
             //If a custom extent is set as a url parameter handle that before creating the map
             if (e) {
@@ -1490,11 +1483,11 @@ define([
         },
 
         // Get Proxied Route Url
-        _getProxiedRouteUrl: function() {
+        _getProxiedRouteUrl: function () {
             var routeUrl;
-            
+
             if (this.config.helperServices.route && this.config.helperServices.route.url !== "") {
-                array.some(this.config.layerMixins, lang.hitch(this, function(layerMixin) {
+                array.some(this.config.layerMixins, lang.hitch(this, function (layerMixin) {
                     if (layerMixin.url === this.config.helperServices.route.url) {
                         var url = layerMixin.url;
                         var proxyUrl = layerMixin.mixin.url;
@@ -1518,19 +1511,18 @@ define([
                     }
                 }
             }
-            if (window.location.href.toLowerCase().indexOf("https:") > -1 && 
+            if (window.location.href.toLowerCase().indexOf("https:") > -1 &&
                 routeUrl.toLowerCase().indexOf("https:") === -1) {
-                 routeUrl.replace("http:", "https:");
+                routeUrl.replace("http:", "https:");
             }
-            console.log("Fixed Route URL", routeUrl);
             return routeUrl;
         },
 
         // Get Proxied Closest Facility Url
-        _getProxiedClosestFacilityUrl: function() {
+        _getProxiedClosestFacilityUrl: function () {
             var cfUrl;
             if (this.config.helperServices.closestFacility && this.config.helperServices.closestFacility.url !== "") {
-                array.some(this.config.layerMixins, lang.hitch(this, function(layerMixin) {
+                array.some(this.config.layerMixins, lang.hitch(this, function (layerMixin) {
                     if (layerMixin.url === this.config.helperServices.closestFacility.url) {
                         var url = layerMixin.url;
                         var proxyUrl = layerMixin.mixin.url;
@@ -1555,9 +1547,8 @@ define([
             }
             if (window.location.href.toLowerCase().indexOf("https:") > -1 &&
                 cfUrl.toLowerCase().indexOf("https:") === -1) {
-                 cfUrl.replace("http:", "https:");
+                cfUrl.replace("http:", "https:");
             }
-            console.log("Fixed Closest Facility URL", cfUrl);
             return cfUrl;
         }
 
