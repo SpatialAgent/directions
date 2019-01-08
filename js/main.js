@@ -1513,7 +1513,7 @@ define([
             }
             if (window.location.href.toLowerCase().indexOf("https:") > -1 &&
                 routeUrl.toLowerCase().indexOf("https:") === -1) {
-                routeUrl.replace("http:", "https:");
+                routeUrl = routeUrl.replace("http:", "https:");
             }
             return routeUrl;
         },
@@ -1536,18 +1536,19 @@ define([
                         return true;
                     }
                 }));
-            } else {
-                cfUrl = this.config.helperServices.closestFacility.url;
-                if (this.config.proxyurl !== "") {
-                    urlUtils.addProxyRule({
-                        urlPrefix: cfUrl,
-                        proxyUrl: this.config.proxyurl
-                    });
+                if (!cfUrl) {
+                    cfUrl = this.config.helperServices.closestFacility.url;
+                    if (this.config.proxyurl !== "") {
+                        urlUtils.addProxyRule({
+                            urlPrefix: cfUrl,
+                            proxyUrl: this.config.proxyurl
+                        });
+                    }
                 }
             }
             if (window.location.href.toLowerCase().indexOf("https:") > -1 &&
                 cfUrl.toLowerCase().indexOf("https:") === -1) {
-                cfUrl.replace("http:", "https:");
+                cfUrl = cfUrl.replace("http:", "https:");
             }
             return cfUrl;
         }

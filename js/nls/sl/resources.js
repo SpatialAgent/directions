@@ -16,29 +16,29 @@
  */
 define({
   "map": {
-    "error": "Kreiranje mape nije moguće",
+    "error": "Karte ni mogoče ustvariti",
     "licenseError": {
-      "message": "Vaš nalog nema licencu za korišćenje aplikacija koje mogu da se konfigurišu i nisu javne. Zatražite od administratora organizacije da vam dodeli onaj tip korisnika koji uključuje osnovne aplikacije ili licencu za dodatne osnovne aplikacije.",
-      "title": "Nema licencu"
+      "message": "Vaš račun ni licenciran za uporabo konfigurabilnih aplikacij, ki niso javne. Prosite administratorja v vaši organizaciji, da vam dodeli tip uporabnika, ki vsebuje aplikacije Essential Apps ali licenco za dodatne aplikacije Essential Apps.",
+      "title": "Brez licence"
     }
   },
   "location": {
-    "name": "Naziv",
+    "name": "Ime",
     "current": "Trenutna lokacija",
-    "address": "Adresa",
+    "address": "Naslov",
     "latitude": "Geografska širina",
-    "longitude": "Geografska dužina",
-    "use": "Koristi ovu lokaciju",
-    "error": "Korišćenje ove lokacije nije moguće"
+    "longitude": "Geografska dolžina",
+    "use": "Uporabi to lokacijo",
+    "error": "Te lokacije ni mogoče uporabiti"
   },
   "tooltips": {
-    "toggle": "Prikaži/sakrij",
-    "reset": "Poništi",
-    "locate": "Pronađi moju lokaciju",
-    "directions": "Uputstva",
+    "toggle": "Prikaži/skrij",
+    "reset": "Ponastavi",
+    "locate": "Najdi mojo lokacijo",
+    "directions": "Navodila za pot",
     "filter": "Filter",
-    "close": "Zatvori",
-    "reverse": "Preokreni",
-    "mode": "Promeni režim vožnja/pešačenje"
+    "close": "Zapri",
+    "reverse": "Povrni",
+    "mode": "Preklop načina Vožnja/Hoja"
   }
 });
