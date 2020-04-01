@@ -24,17 +24,17 @@ define({
   },
   "location": {
     "name": "Nosaukums",
-    "current": "Pašreizējais izvietojums",
+    "current": "Pašreizējais novietojums",
     "address": "Adrese",
     "latitude": "Platums",
     "longitude": "Garums",
-    "use": "Lietot šo izvietojumu",
-    "error": "Nevar lietot šo izvietojumu"
+    "use": "Lietot šo novietojumu",
+    "error": "Nevar lietot šo novietojumu"
   },
   "tooltips": {
     "toggle": "Rādīt/paslēpt",
     "reset": "Atiestatīt",
-    "locate": "Atrast manu izvietojumu",
+    "locate": "Atrast manu novietojumu",
     "directions": "Norādes",
     "filter": "Filtrs",
     "close": "Aizvērt",
