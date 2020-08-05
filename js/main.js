@@ -756,6 +756,7 @@ define([
 
         // Reset App
         _resetApp: function () {
+            this.selectedNum = null;
             this._unselectRecords();
             this._updateOrigin(null, null);
             this._processDestinationFeatures();
